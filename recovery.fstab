@@ -7,4 +7,4 @@
 /modem		emmc		/dev/block/platform/155a0000.ufs/by-name/RADIO	flags=display="Modem"
 /modem_debug	emmc		/dev/block/platform/155a0000.ufs/by-name/CP_DEBUG	flags=subpartitionof=/modem
 /external_sd	vfat		/dev/block/mmcblk0p1 /dev/block/mmcblk0			flags=display="Micro SDcard";storage;wipeingui;removable;settingsstorage
-/usbstorage	vfat		/dev/sde1 /dev/sde							flags=display="USB Storage";storage;wipeingui;removable
+/usbstorage	vfat		/dev/block/sde1 /dev/block/sde				flags=display="USB Storage";storage;wipeingui;removable
