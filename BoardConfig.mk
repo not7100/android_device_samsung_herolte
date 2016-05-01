@@ -8,9 +8,9 @@ TARGET_BOARD_PLATFORM := exynos8890
 TARGET_BOARD_PLATFORM_GPU := mali-t880mp12
 
 # Flags
-TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
-COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60
+#TARGET_GLOBAL_CFLAGS +=
+#TARGET_GLOBAL_CPPFLAGS +=
+#COMMON_GLOBAL_CFLAGS +=
 
 # Architecture
 TARGET_ARCH := arm64
@@ -33,6 +33,7 @@ TARGET_USES_UNCOMPRESSED_KERNEL := true
 BOARD_KERNEL_CMDLINE := # Exynos doesn't take cmdline arguments from boot image
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
+# 000RU = recovery kernel, 000KU = system kernel
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --board SRPOI17A000RU
 
 BOARD_BOOTIMAGE_PARTITION_SIZE     := 0x002800000
@@ -45,8 +46,6 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 TARGET_PREBUILT_KERNEL := device/samsung/herolte/Image
 TARGET_PREBUILT_DTB := device/samsung/herolte/dtb.img
 
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/15400000.usb/15400000.dwc3/gadget/lun%d/file"
-
 # Use this flag if the board has a ext4 partition larger than 2gb
 BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -58,17 +57,27 @@ BOARD_CUSTOM_BOOTIMG_MK :=  device/samsung/herolte/bootimg.mk
 TW_THEME := portrait_hdpi
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TARGET_RECOVERY_PIXEL_FORMAT := "ABGR_8888"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/15400000.usb/15400000.dwc3/gadget/lun%d/file"
 TW_BRIGHTNESS_PATH := "/sys/devices/13900000.dsim/backlight/panel/brightness"
 TW_MAX_BRIGHTNESS := 255
 TW_DEFAULT_BRIGHTNESS := 162
-TW_INTERNAL_STORAGE_PATH := "/data/media/0"
-TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
-TW_EXTERNAL_STORAGE_PATH := "/external_sd"
-TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_NO_REBOOT_BOOTLOADER := true
 TW_HAS_DOWNLOAD_MODE := true
-TW_INCLUDE_CRYPTO := true
 TW_NO_EXFAT_FUSE := true
 TW_MTP_DEVICE := "/dev/mtp_usb"
+TW_EXCLUDE_SUPERSU := true
+
+# Encryption support
+# - Only enable standard crypto for now to support AOSP/CM crypto
+TW_INCLUDE_CRYPTO := true
+#TW_INCLUDE_CRYPTO_SAMSUNG := true
+#TARGET_HW_DISK_ENCRYPTION := true
+#TARGET_KEYMASTER_WAIT_FOR_QSEE := true
+#TWRP_INCLUDE_LOGCAT := true
+#TARGET_USES_LOGD := true
+
+# Init properties from bootloader version, ex. model info
+TARGET_UNIFIED_DEVICE := true
+TARGET_INIT_VENDOR_LIB := libinit_exynos
+TARGET_LIBINIT_DEFINES_FILE := device/samsung/herolte/init/init_herolte.cpp

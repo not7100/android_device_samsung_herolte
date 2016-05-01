@@ -1,4 +1,4 @@
-## TWRP device tree for Galaxy S7 (International Exynos, SM-G930F)
+## TWRP device tree for Galaxy S7 (International & Canadian Exynos)
 
 Add to `.repo/local_manifests/herolte.xml`:
 
