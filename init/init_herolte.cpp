@@ -33,9 +33,7 @@
 #include "property_service.h"
 #include "util.h"
 
-#include "init_exynos.h"
-
-void init_exynos_properties(void)
+void vendor_load_properties()
 {
 	char bootloader[PROP_VALUE_MAX];
 
@@ -44,16 +42,19 @@ void init_exynos_properties(void)
 	if (strstr(bootloader, "G930W8")) {
 		/* Canada */
 		property_set("ro.product.model", "SM-G930W8");
+		property_set("ro.product.name", "heroltebmc");
 	} else if (strstr(bootloader, "G930X")) {
 		/* store model / prerelease */
 		property_set("ro.product.model", "SM-G930X");
+		property_set("ro.product.name", "heroltexx");
 	} else if (strstr(bootloader, "G930FD")) {
 		/* international duos */
 		property_set("ro.product.model", "SM-G930FD");
+		property_set("ro.product.name", "heroltexx");
 	} else {
 		/* all other variants become international */
 		property_set("ro.product.model", "SM-G930F");
+		property_set("ro.product.name", "heroltexx");
 	}
-	property_set("ro.product.name", "herolte");
 	property_set("ro.product.device", "herolte");
 }
