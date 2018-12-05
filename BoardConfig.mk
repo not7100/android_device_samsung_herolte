@@ -1,17 +1,12 @@
 DEVICE_TREE := device/samsung/herolte
 
 # Bootloader
-TARGET_NO_BOOTLOADER := true
-TARGET_BOOTLOADER_BOARD_NAME := universal8890
-
-# Platform
+BOARD_VENDOR := samsung
 TARGET_BOARD_PLATFORM := exynos5
-TARGET_BOARD_PLATFORM_GPU := mali-t880mp12
-
-# Flags
-#TARGET_GLOBAL_CFLAGS +=
-#TARGET_GLOBAL_CPPFLAGS +=
-#COMMON_GLOBAL_CFLAGS +=
+TARGET_SOC := exynos8890
+TARGET_BOOTLOADER_BOARD_NAME := universal8890
+TARGET_NO_BOOTLOADER := true
+TARGET_NO_RADIOIMAGE := true
 
 # Architecture
 TARGET_ARCH := arm64
@@ -28,35 +23,20 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a53
 
 # Kernel
-TARGET_USES_UNCOMPRESSED_KERNEL := true
-#TARGET_KERNEL_SOURCE := kernel/samsung/universal8890
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
-TARGET_KERNEL_CONFIG := twrp_defconfig
-TARGET_KERNEL_DEVICE_DEFCONFIG := device_herolte_xx
+TARGET_KERNEL_CONFIG := exynos8890-herolte_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/universal8890
 
-TARGET_PREBUILT_KERNEL := $(DEVICE_TREE)/Image
-TARGET_PREBUILT_DTB := $(DEVICE_TREE)/dtb.img
-
-# DTB
-TARGET_DTBH_PLATFORM_CODE := 0x000050a6
-TARGET_DTBH_SUBTYPE_CODE  := 0x217584da
-
-# Boot image
-BOARD_KERNEL_CMDLINE := # Exynos doesn't take cmdline arguments from boot image
+# Image
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
+BOARD_CUSTOM_BOOTIMG_MK :=  $(DEVICE_TREE)/mkbootimg.mk
+BOARD_KERNEL_IMAGE_NAME := Image
+BOARD_KERNEL_SEPARATED_DT := true
 # 000RU = recovery kernel, 000KU = system kernel
-BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --board SRPOI17A000RU
-BOARD_CUSTOM_BOOTIMG_MK :=  $(DEVICE_TREE)/bootimg.mk
-
-# Partitions
-BOARD_BOOTIMAGE_PARTITION_SIZE     := 0x002800000
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x002E00000
-BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 0x16A800000
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x64BFFB000 # 0x64C000000 - 20480 (footer)
-BOARD_CACHEIMAGE_PARTITION_SIZE    := 0x00FA00000
-BOARD_FLASH_BLOCK_SIZE := 131072
+BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --board SRPOI30A000RU
+TARGET_CUSTOM_DTBTOOL := dtbhtoolExynos
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -64,6 +44,7 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
 # TWRP specific build flags
+RECOVERY_VARIANT := twrp
 TW_THEME := portrait_hdpi
 RECOVERY_SDCARD_ON_DATA := true
 TARGET_RECOVERY_PIXEL_FORMAT := "ABGR_8888"
@@ -74,25 +55,12 @@ TW_DEFAULT_BRIGHTNESS := 162
 TW_NO_REBOOT_BOOTLOADER := true
 TW_HAS_DOWNLOAD_MODE := true
 TW_INCLUDE_NTFS_3G := true
+
 # exFAT drivers included in the kernel
 TW_NO_EXFAT_FUSE := true
-# No love for the wicked (device ships with M)
-TW_EXCLUDE_SUPERSU := true
 
 # Encryption support
 TW_INCLUDE_CRYPTO := true
-# Samsung's encryption is currently unsupported
-#TW_INCLUDE_CRYPTO_SAMSUNG := true
-#TARGET_HW_DISK_ENCRYPTION := true
 
 # Asian region languages
 TW_EXTRA_LANGUAGES := true
-
-# Debug flags
-#TWRP_INCLUDE_LOGCAT := true
-
-# Init properties from bootloader version, ex. model info
-TARGET_UNIFIED_DEVICE := true
-TARGET_INIT_VENDOR_LIB := libinit_herolte
-TARGET_RECOVERY_DEVICE_MODULES := libinit_herolte
-TARGET_LIBINIT_DEFINES_FILE := $(DEVICE_TREE)/init/init_herolte.cpp

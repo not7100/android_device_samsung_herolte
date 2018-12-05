@@ -1,2 +1,8 @@
 [
+	{
+		"remote":"github",
+		"repository":"not7100/android_kernel_samsung_universal8890",
+		"target_path":"kernel/samsung/universal8890",
+		"revision":"android-8.1"
+	}
 ]
